@@ -45,4 +45,68 @@ theta_1 = 0
 def hypothesis(x):
     return theta_0 + theta_1*x
 
+# === Step 5: train the model using gradient descent ==========================
+# define the gradient descent function
+def gradient_descent(x, y, iter, eta):
+    global theta_0
+    global theta_1
+    for i in range(iter):
+        # calculate hypothesis
+        h = hypothesis(x)
+        # calculate error
+        e = h - y
 
+        # calculate d_J/d_theta_0
+        sum_e = np.sum(e)
+        d_J_d_theta_0 = sum_e / np.size(x)
+        # calculate d_J/d_theta_1
+        e_mul_x = e * x
+        sum_e_mul_x = np.sum(e_mul_x)
+        d_J_d_theta_1 = sum_e_mul_x / np.size(x)
+
+        # update theta 0
+        theta_0 = theta_0 - eta*d_J_d_theta_0;
+        # update theta 1
+        theta_1 = theta_1 - eta*d_J_d_theta_1;
+    return
+# find theta_0 and theta_1 using gradient descent
+gradient_descent(x_train, y_train, 10000, 0.005)
+
+# === Step 5a: train the model using normal equation [optional] ===============
+# define normal equation function
+def normal_equation(x_train, y_train):
+    X_b = np.c_[np.ones((80, 1)), x_train.reshape(-1, 1)]
+    y = y_train.reshape(-1, 1)
+    X_transpose = X_b.T
+    theta = np.linalg.inv(X_transpose.dot(X_b)).dot(X_transpose).dot(y)
+    return theta
+# find theta_0 and theta_1 using normal equation
+theta_norm = normal_equation(x_train, y_train)
+
+# === Step 6: plot the trained model ==========================================
+# data for plotting the hypothesis function
+x_trained_model = np.arange(0, 31)
+y_trained_model = hypothesis(x_trained_model)
+# plot the hypothesis function
+plt.scatter(x_train, y_train, label='Train set')
+plt.scatter(x_test, y_test, label='Test set')
+plt.plot(x_trained_model, y_trained_model, '-r', label='$h_{\\theta}(x)$')
+plt.xlim(0, 30)
+plt.ylim(0, 100)
+plt.title('Correlation between temperature and bike rentals')
+plt.xlabel('Temperature $[^{\circ}C]$')
+plt.ylabel('Bike-sharing users')
+plt.legend()
+
+# === Step 7: making predictions ==============================================
+# make predictions using test set
+y_predict = hypothesis(x_test)
+# plot predictions result
+plt.scatter(x_test, y_test, label='Test set')
+plt.scatter(x_test, y_predict, label='Prediction')
+plt.xlim(0, 30)
+plt.ylim(0, 100)
+plt.title('Correlation between temperature and bike rentals')
+plt.xlabel('Temperature $[^{\circ}C]$')
+plt.ylabel('Bike-sharing users')
+plt.legend()
