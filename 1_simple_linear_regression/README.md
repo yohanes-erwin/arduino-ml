@@ -9,5 +9,8 @@ We want to build an AIoT device that can predict the number of bike-sharing user
 ## Solution
 
 1. Build the model in Python
+   - Prepare data set
+   - Build model
+   - Train model with gradient descent
 2. Build the model in C Arduino
 3. Deploy the model in ESP32
