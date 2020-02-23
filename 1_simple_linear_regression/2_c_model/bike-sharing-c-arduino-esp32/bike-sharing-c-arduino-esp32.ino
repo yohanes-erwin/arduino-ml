@@ -27,9 +27,9 @@ void setup()
   Serial.begin(115200);
 
   // === Step 2: train the model using gradient descent ========================
-  printf("Training ...\n");
+  Serial.print("Training ...\n");
   gradient_descent(x_train, y_train, 80, 10000, 0.005);
-  printf("Training completed: Theta 0 = %.3f, Theta 1 = %.3f\n", theta_0, theta_1);
+  Serial.printf("Training completed: theta_0 = %.3f, theta_1 = %.3f\n", theta_0, theta_1);
 }
 
 void loop()
