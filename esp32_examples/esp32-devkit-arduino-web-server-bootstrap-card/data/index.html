@@ -1,0 +1,46 @@
+<html>
+<head>
+    <title>ESP32 Web Page</title>
+	<link rel="stylesheet" href="bootstrap.min.css">
+    <script src="jquery-3.3.1.min.js"></script>
+    <script src="popper.min.js"></script>
+    <script src="bootstrap.min.js"></script>
+	<script src="a076d05399.js"></script>
+</head>
+<body>
+	<div class="container-fluid">
+	    <div class="row h-100">
+			<div class="col-4 offset-4 my-auto">
+				<div class="card">
+					<div class="card-header text-center">
+						<strong>DHT11 Sensor</strong>
+					</div>
+					<div class="card-body text-center">
+						<div class="m-5">
+							<h1><i class="fa-fw fas fa-thermometer-half"></i><strong><span id="temp_value">N/A</span>&deg;C</strong></h1>
+							<h1><i class="fa-fw fas fa-tint"></i><strong><span id="hum_value">N/A</span>%</strong></h1>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	<div>
+    <script>
+		setInterval(function() {
+			getDHT11Value();
+		}, 1000);
+		function getDHT11Value() {
+			var xhttp = new XMLHttpRequest();
+			xhttp.onreadystatechange = function() {
+				if (this.readyState == 4 && this.status == 200) {
+					var response = JSON.parse(this.responseText);
+					document.getElementById("temp_value").innerHTML = Math.round(response.temp);
+					document.getElementById("hum_value").innerHTML = Math.round(response.hum);
+				}
+			};
+			xhttp.open("POST", "dht11_ajax", true);
+			xhttp.send();
+		}
+    </script>
+</body>
+</html>

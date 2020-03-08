@@ -3,7 +3,7 @@
 
 #include <DHT.h>
 
-#define DHTPIN  4
+#define DHTPIN  22
 #define DHTTYPE DHT11
 
 // Setup DHT pin and type

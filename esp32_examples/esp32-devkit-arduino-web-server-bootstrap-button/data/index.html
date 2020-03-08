@@ -1,0 +1,34 @@
+<html>
+<head>
+    <title>ESP32 Web Page</title>
+	<link rel="stylesheet" href="bootstrap.min.css">
+    <script src="jquery-3.3.1.min.js"></script>
+    <script src="popper.min.js"></script>
+    <script src="bootstrap.min.js"></script>
+</head>
+<body>
+	<div class="container-fluid">
+	    <div class="row h-100">
+			<div class="col-4 offset-4 my-auto">
+				<h3 class="text-center">Write LED State using AJAX</h3>
+				<div class="text-center">
+					<button id="btn_on" class="btn btn-success"><strong>ON</strong></button>
+					<button id="btn_off" class="btn btn-danger"><strong>OFF</strong></button>
+				</div>
+			</div>
+		</div>
+	<div>
+	<script>
+		document.getElementById("btn_on").onclick = function() {
+			var xhttp = new XMLHttpRequest();
+			xhttp.open("POST", "on", true);
+			xhttp.send();
+		};
+		document.getElementById("btn_off").onclick = function() {
+			var xhttp = new XMLHttpRequest();
+			xhttp.open("POST", "off", true);
+			xhttp.send();
+		};
+    </script>
+</body>
+</html>

@@ -1,0 +1,72 @@
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>ESP32 Web Page</title>
+	<link rel="stylesheet" href="bootstrap.min.css">
+    <script src="jquery-3.3.1.min.js"></script>
+    <script src="popper.min.js"></script>
+    <script src="bootstrap.min.js"></script>
+	<script src="raphael-2.1.4.min.js"> </script>
+	<script src="justgage.js"> </script>
+	<style>
+		.card {
+			min-height: 350px;
+		}
+		.card-body {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+		}
+    </style>
+</head>
+<body>
+	<div class="container-fluid">
+	    <div class="row h-100">
+			<div class="col-4 offset-4 my-auto">
+				<div class="card">
+					<div class="card-header text-center">
+						<strong>Temperature</strong>
+					</div>
+					<div class="card-body text-center">
+						<div id="gauge_temp" style="width:250px; height:250px"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	<div>
+    <script>
+		// *** Gauge for temperature ***
+		var gauge_temp;
+		gauge_temp = new JustGage({
+			id: "gauge_temp",
+			min: -15,
+			max: 35,
+			donut: false,
+			pointer: true,
+			gaugeWidthScale: 0.8,
+			counter: true,
+			hideInnerShadow: true,
+			title: "",
+			titlePosition: "below",
+			levelColors: ["#ffa800", "#ffa800", "#ffa800"],
+			titleFontColor : "#292b2c",
+			label: "°C",
+			labelFontColor: "#292b2c",
+			labelMinFontSize: 16,
+			relativeGaugeSize: true
+		});
+
+		setInterval(function() {
+			var xhttp = new XMLHttpRequest();
+			xhttp.onreadystatechange = function() {
+				if (this.readyState == 4 && this.status == 200) {
+					gauge_temp.refresh(parseInt(this.responseText));	
+				}
+			};
+			xhttp.open("POST", "/temperature", true);
+			xhttp.send();
+		}, 1000);
+    </script>
+</body>
+</html>

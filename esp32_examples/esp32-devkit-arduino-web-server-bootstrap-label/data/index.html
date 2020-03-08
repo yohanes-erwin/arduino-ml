@@ -1,0 +1,30 @@
+<html>
+<head>
+    <title>ESP32 Web Page</title>
+	<link rel="stylesheet" href="bootstrap.min.css">
+    <script src="jquery-3.3.1.min.js"></script>
+    <script src="popper.min.js"></script>
+    <script src="bootstrap.min.js"></script>
+</head>
+<body>
+	<div class="container-fluid">
+		<h3 class="text-center">Read Button State using AJAX</h3>
+		<h3 class="text-center"><strong><span id="button_state" class="badge badge-warning">N/A</span></strong></h3>
+	<div>
+	<script>
+		setInterval(function() {
+			getButtonState();
+		}, 1000);
+		function getButtonState() {
+			var xhttp = new XMLHttpRequest();
+			xhttp.onreadystatechange = function() {
+				if (this.readyState == 4 && this.status == 200) {
+					document.getElementById("button_state").innerHTML = this.responseText;
+				}
+			};
+			xhttp.open("GET", "button_ajax", true);
+			xhttp.send();
+		}
+    </script>
+</body>
+</html>

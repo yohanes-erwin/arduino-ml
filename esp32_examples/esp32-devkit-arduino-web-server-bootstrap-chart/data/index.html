@@ -1,0 +1,101 @@
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>ESP32 Web Page</title>
+	<link rel="stylesheet" href="bootstrap.min.css">
+    <script src="jquery-3.3.1.min.js"></script>
+    <script src="popper.min.js"></script>
+    <script src="bootstrap.min.js"></script>
+	<script src="highcharts.js"> </script>
+	<style>
+		.card {
+			min-height: 350px;
+		}
+		.card-body {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+		}
+    </style>
+</head>
+<body>
+	<div class="container-fluid">
+	    <div class="row h-100">
+			<div class="col-4 offset-4 my-auto">
+				<div class="card">
+					<div class="card-header text-center">
+						<strong>Temperature</strong>
+					</div>
+					<div class="card-body text-center" id="chart_container">
+						<div id="chart_temperature"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	<div>
+    <script>
+		// *** Chart for number of users ***
+		var chartTemp = new Highcharts.Chart({
+			chart: {
+				renderTo : 'chart_temperature'
+			},
+			title: {
+				text: ''
+			},
+			series: [{
+				showInLegend: false,
+				data: []
+			}],
+			plotOptions: {
+				line: {
+					animation: false,
+					dataLabels: {
+						enabled: true
+					}
+				},
+				series: {
+					color: '#ffa800'
+				}
+			},
+			xAxis: { 
+				type: 'datetime',
+				dateTimeLabelFormats: {
+					second: '%H:%M:%S'
+				}
+			},
+			yAxis: {
+				title: {
+					text: 'Temperature [°C]'
+				}
+			},
+			credits: {
+				enabled: false
+			}
+		});
+
+		$("#chart_temperature").highcharts().setSize($("#chart_container").width(), 250);
+		$(window).on('resize', function(){
+			$("#chart_temperature").highcharts().setSize($("#chart_container").width(), 250);
+		});
+		
+		setInterval(function() {
+			var xhttp = new XMLHttpRequest();
+			xhttp.onreadystatechange = function() {
+				if (this.readyState == 4 && this.status == 200) {
+					var x = (new Date()).getTime();
+					var y = parseInt(this.responseText);
+
+					if (chartTemp.series[0].data.length > 40) {
+						chartTemp.series[0].addPoint([x, y], true, true, true);
+					} else {
+						chartTemp.series[0].addPoint([x, y], true, false, true);
+					}	
+				}
+			};
+			xhttp.open("POST", "/temperature", true);
+			xhttp.send();
+		}, 1000);
+    </script>
+</body>
+</html>

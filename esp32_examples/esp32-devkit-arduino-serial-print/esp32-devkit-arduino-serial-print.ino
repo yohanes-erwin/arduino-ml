@@ -10,6 +10,7 @@ void setup()
 void loop()
 {
   // Print text
-  Serial.println("Hello, world!");
+  Serial.println("Hello, World!");
   delay(1000);
 }
+
