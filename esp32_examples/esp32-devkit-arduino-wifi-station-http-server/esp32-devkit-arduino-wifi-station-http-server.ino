@@ -12,7 +12,7 @@ const uint16_t port = 80;
 // TCP server object declaration
 WiFiServer server(port);
 
-String httpResponse =
+String httpResponseHeader =
   "HTTP/1.1 200 OK\r\n" \
   "Content-Type: text/html\r\n" \
   "Connection: close\r\n" \
@@ -70,30 +70,29 @@ void loop()
         // *** Read a character from client ***
         char c = client.read();
         Serial.write(c);
-                
+
+        // The new line is a blank line
+        // The http request has ended
         if (c == '\n' && currentLineIsBlank)
         {
-          // The end of the line (received a newline character),
-          // and the line is blank, the http request has ended,
-          // so you can send a reply
-
-          // Send HTTP response
-          client.print(httpResponse);
+          // Send HTTP response header
+          client.print(httpResponseHeader);
           // Send web page
           client.print(webPage);
+          Serial.printf("[HTTP response sent]\n");
                     
           break;
         }
-                
+
+        // Every line of HTTP request ends with \r\n
         if (c == '\n')
         {
-          // The last character on line of the received text is received,
-          // then starts a new line
+          // This is the last character of every line
           currentLineIsBlank = true;
         }
         else if (c != '\r')
         {
-          // Receive character on the current line
+          // The new line is not a blank line
           currentLineIsBlank = false;
         }
       }
@@ -102,7 +101,7 @@ void loop()
         
     // *** Close client ***
     client.stop();
-    Serial.printf("[Client disconnected]\n");
+    Serial.printf("[Client disconnected]\n\n");
   }
 }
 

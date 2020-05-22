@@ -29,7 +29,7 @@ const char webpage[] PROGMEM = R"=====(
   </head>
   <body>
     <p>Write LED Value</p>
-    <form action="/led_pwm_ajax" method="POST">
+    <form action="/led_pwm" method="POST">
       <input type="range" name="pwm_value" min="0" max="1023" value="0"><br>
       <input type="submit">
     </form>
@@ -68,8 +68,8 @@ void setup()
     request->send_P(200, "text/html", webpage);
   });
 
-  // Handler for button AJAX request
-  server.on("/led_pwm_ajax", HTTP_POST, [](AsyncWebServerRequest *request)
+  // Handler for button request
+  server.on("/led_pwm", HTTP_POST, [](AsyncWebServerRequest *request)
   {
     // Get HTTP POST parameter
     AsyncWebParameter *p = request->getParam(0);
@@ -77,9 +77,10 @@ void setup()
     {
       // Print HTTP POST parameter to the serial monitor
       Serial.printf("POST[%s]: %s\n", p->name().c_str(), p->value().c_str());
-      // Write PWM value to the LED
-      ledcWrite(channel, p->value().toInt());
     }
+    // Write PWM value to the LED
+    ledcWrite(channel, p->value().toInt());
+    
     request->redirect("/");
   });
 

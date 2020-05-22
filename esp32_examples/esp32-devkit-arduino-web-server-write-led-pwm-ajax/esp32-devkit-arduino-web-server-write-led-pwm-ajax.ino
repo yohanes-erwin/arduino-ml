@@ -83,9 +83,10 @@ void setup()
     {
       // Print HTTP POST parameter to the serial monitor
       Serial.printf("POST[%s]: %s\n", p->name().c_str(), p->value().c_str());
-      // Write PWM value to the LED
-      ledcWrite(channel, p->value().toInt());
     }
+    // Write PWM value to the LED
+    ledcWrite(channel, p->value().toInt());
+      
     // Tell client that the HTTP POST has been performed
     request->send(303);
   });

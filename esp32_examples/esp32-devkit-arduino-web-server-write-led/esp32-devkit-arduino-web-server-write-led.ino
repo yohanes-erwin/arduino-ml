@@ -58,13 +58,17 @@ void setup()
 
   // Handler for turning on the LED
   server.on("/on", HTTP_GET, [](AsyncWebServerRequest *request){
+    printf("%s/on\n", WiFi.localIP().toString().c_str());
     digitalWrite(LED_ON_BOARD, HIGH);
+    printf("LED On\n");
     request->redirect("/");
   });
   
   // Handler for turning of the LED
   server.on("/off", HTTP_GET, [](AsyncWebServerRequest *request){
+    printf("%s/off\n", WiFi.localIP().toString().c_str());
     digitalWrite(LED_ON_BOARD, LOW);
+    printf("LED Off\n");
     request->redirect("/");
   });
 

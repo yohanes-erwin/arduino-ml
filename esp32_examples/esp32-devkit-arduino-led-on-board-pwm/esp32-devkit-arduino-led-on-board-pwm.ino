@@ -11,8 +11,6 @@ const int res = 10;
 
 void setup()
 {
-  // Set GPIO pin as output for on-board LED
-  pinMode(LED_ON_BOARD, OUTPUT);
   // Configure PWM
   ledcSetup(channel, freq, res);
   // Attach the PWM channel to the LED

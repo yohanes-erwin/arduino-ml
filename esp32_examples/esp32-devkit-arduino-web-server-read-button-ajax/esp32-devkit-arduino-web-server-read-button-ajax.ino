@@ -24,7 +24,7 @@ const char webpage[] PROGMEM = R"=====(
   </head>
   <body>
     <p>Read Button State using AJAX</p>
-    <p><strong><span id="button_state">N/A</span></strong></p>
+    <p><b><span id="button_state">N/A</span></b></p>
     <script>
       setInterval(function() {
         getButtonState();
@@ -75,11 +75,13 @@ void setup()
   {
     if (digitalRead(BUTTON))
     {
-      request->send(200, "text/plain", "OFF");
+      request->send(200, "text/plain", "Released");
+      printf("Button released\n");
     }
     else
     {
-      request->send(200, "text/plain", "ON");
+      request->send(200, "text/plain", "Pressed");
+      printf("Button pressed\n");
     }
   });
 

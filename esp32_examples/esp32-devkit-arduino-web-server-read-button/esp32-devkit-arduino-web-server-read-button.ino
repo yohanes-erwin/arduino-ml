@@ -25,7 +25,7 @@ const char webpage[] PROGMEM = R"=====(
   </head>
   <body>
     <p>Read Button State</p>
-    <p><strong>%STATE%</strong></p>
+    <p><b>%STATE%</b></p>
   </body>
 </html>
 )=====";
@@ -40,11 +40,13 @@ String processor(const String& var)
     // Read active-low button state
     if (digitalRead(BUTTON))
     {
-      button_state = "OFF";
+      button_state = "Released";
+      printf("Button released\n");
     }
     else
     {
-      button_state = "ON";
+      button_state = "Pressed";
+      printf("Button pressed\n");
     }
     return button_state;
   }

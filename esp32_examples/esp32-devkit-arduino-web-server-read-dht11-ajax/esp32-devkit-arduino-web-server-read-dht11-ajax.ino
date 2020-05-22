@@ -29,8 +29,8 @@ const char webpage[] PROGMEM = R"=====(
   </head>
   <body>
     <p>Read DHT11 Sensor using AJAX</p>
-    <p>Temperature: <strong><span id="temp_value">N/A</span>&deg;C</strong></p>
-    <p>Humidity: <strong><span id="hum_value">N/A</span>%</strong></p>
+    <p>Temperature: <b><span id="temp_value">N/A</span>&deg;C</b></p>
+    <p>Humidity: <b><span id="hum_value">N/A</span>%</b></p>
     <script>
       setInterval(function() {
         getDHT11Value();
@@ -84,6 +84,7 @@ void setup()
     // Read temperature and humidity
     float temp = dht.readTemperature();
     float hum = dht.readHumidity();
+    printf("Temperature: %.2f, Humidity: %.2f\n", temp, hum);
 
     // Send JSON response
     AsyncResponseStream *response = request->beginResponseStream("application/json");
